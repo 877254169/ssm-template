@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE configuration PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+
+    <!--注意配置的顺序-->
+
+        <settings>
+            <!-- 打印SQL-->
+            <setting name="logImpl" value="STDOUT_LOGGING"/>
+    <!--        &lt;!&ndash; 开启延迟加载 &ndash;&gt;-->
+    <!--        <setting name="lazyLoadingEnabled" value="true"/>-->
+    <!--        &lt;!&ndash; 开启二级缓存 &ndash;&gt;-->
+    <!--        <setting name="cacheEnabled" value="true"/>-->
+        </settings>
+
+    <typeAliases>
+        <!--对这个目录下的POJO启用别名-->
+        <package name="cn.jam.pojo"/>
+    </typeAliases>
+
+    <!--在spring-dao.xml配置了扫描，这里不用每次注册-->
+<!--    <mappers>-->
+<!--        <mapper class="cn.jam.dao.BookMapper"/>-->
+<!--    </mappers>-->
+
+</configuration>

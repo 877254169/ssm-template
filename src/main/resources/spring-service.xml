@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans.xsd
+                           http://www.springframework.org/schema/context
+                           https://www.springframework.org/schema/context/spring-context.xsd
+                           http://www.springframework.org/schema/tx
+                           http://www.springframework.org/schema/tx/spring-tx.xsd
+                           http://www.springframework.org/schema/aop
+                           https://www.springframework.org/schema/aop/spring-aop.xsd">
+
+    <!--1.扫描service下的包-->
+    <context:component-scan base-package="cn.jam.service"/>
+
+    <!--2.将我们所有业务类，注入Spring，可以通过配置，也可以通过注解，这里用注解-->
+
+    <!--3.声明式事务-->
+    <bean id="dataSourceTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <!--注入数据源-->
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+    <!--4.aop事务支持-->
+    <!--结合AOP，实现事务的织入-->
+    <tx:advice id="txAdvice" transaction-manager="dataSourceTransactionManager">
+        <tx:attributes>
+            <!--配置那些方法要织入事务，*代表所有方法-->
+            <tx:method name="*" propagation="REQUIRED"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <!--配置AOP切入事务-->
+    <aop:config>
+        <aop:pointcut id="txCutPoint" expression="execution(* cn.jam.dao.*.*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="txCutPoint"/>
+    </aop:config>
+
+</beans>
